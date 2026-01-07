@@ -1,0 +1,150 @@
+{
+  "project": {
+    "title": "미래 도시의 밤 - 시네마틱 시퀀스",
+    "style": "Cinematic 4K Photorealistic",
+    "aspectRatio": "16:9",
+    "totalDuration": "30초",
+    "description": "네온사인이 빛나는 미래 도시의 비 오는 밤거리를 걷는 남자의 이야기"
+  },
+  "scenario": "2077년 미래 도시. 비가 내리는 밤거리를 걷는 검은 트렌치코트의 남자. 네온사인의 빛이 젖은 아스팔트에 반사되며 신비로운 분위기를 연출한다.",
+  "scenes": [
+    {
+      "sceneNumber": 1,
+      "sceneId": "scene_001",
+      "title": "도시 전경",
+      "description": "미래 도시의 전체적인 모습을 보여주는 오프닝 샷",
+      "duration": 10,
+      "frames": {
+        "start": {
+          "shotType": "wide-shot",
+          "duration": 3,
+          "description": "도시의 넓은 전경, 높은 건물들과 네온사인",
+          "prompt": "A futuristic cityscape at night, towering skyscrapers covered in neon signs, rain falling, cyberpunk aesthetic, cinematic lighting, ultra-detailed, 4K quality",
+          "motion": {
+            "ko": "카메라가 천천히 위에서 아래로 틸트 다운하며 도시 전경을 보여줌",
+            "en": "Cinematic, 4K, Photorealistic. Slow tilt-down shot from high angle of a futuristic cityscape at night, towering skyscrapers covered in bright neon signs and holographic advertisements in a dystopian metropolis, heavy rain falling, cyberpunk aesthetic with purple and blue lighting.",
+            "speed": "slow"
+          }
+        },
+        "middle": {
+          "shotType": "medium-shot",
+          "duration": 4,
+          "description": "건물 사이로 들어가며 거리의 분위기를 담음",
+          "prompt": "Street-level view of futuristic city, neon-lit storefronts, rain-soaked streets reflecting colorful lights, people with umbrellas, atmospheric fog, moody lighting",
+          "motion": {
+            "ko": "카메라가 건물 사이로 천천히 전진하며 거리 레벨로 내려옴",
+            "en": "Cinematic, 4K, Photorealistic. Smooth forward tracking shot, descending between buildings of a neon-lit street-level view, storefronts glowing with holographic signs in a futuristic city, rain-soaked asphalt reflecting vibrant purple and cyan lights, silhouettes of people with umbrellas, atmospheric fog.",
+            "speed": "medium"
+          }
+        },
+        "end": {
+          "shotType": "close-up",
+          "duration": 3,
+          "description": "네온사인의 디테일과 빗물",
+          "prompt": "Extreme close-up of neon signs flickering, raindrops on glass surface, bokeh lights in background, shallow depth of field, cinematic color grading",
+          "motion": {
+            "ko": "네온사인에 초점을 맞추며 천천히 줌 인",
+            "en": "Cinematic, 4K, Photorealistic. Slow zoom-in macro shot of flickering neon signs, raindrops sliding down glass surface in close-up, bokeh lights in background creating vibrant blue and pink halos, shallow depth of field with cinematic color grading.",
+            "speed": "slow"
+          }
+        }
+      },
+      "transition": {
+        "type": "cross-dissolve",
+        "duration": 1000
+      }
+    },
+    {
+      "sceneNumber": 2,
+      "sceneId": "scene_002",
+      "title": "주인공 등장",
+      "description": "검은 트렌치코트를 입은 남자가 거리를 걷는다",
+      "duration": 10,
+      "frames": {
+        "start": {
+          "shotType": "full-shot",
+          "duration": 3,
+          "description": "멀리서 걸어오는 남자의 실루엣",
+          "prompt": "Silhouette of a man in a long black trench coat walking towards camera, backlit by neon signs, rain falling, dramatic lighting, film noir style, 4K cinematic",
+          "motion": {
+            "ko": "남자가 카메라를 향해 천천히 걸어오며 실루엣으로 보임",
+            "en": "Cinematic, 4K, Photorealistic. Medium wide shot, camera static with slight shake of a man in a long black trench coat with collar up walking slowly towards the camera in a rain-soaked futuristic street at night, backlit by bright neon signs creating a dramatic silhouette, film noir aesthetic with blue and red color grading.",
+            "speed": "slow"
+          }
+        },
+        "middle": {
+          "shotType": "medium-shot",
+          "duration": 4,
+          "description": "남자의 상반신과 표정이 보이기 시작함",
+          "prompt": "A man in his 30s wearing black trench coat, serious expression, rain dripping from his face, neon lights reflecting on wet clothing, cyberpunk character design, photorealistic, cinematic portrait",
+          "motion": {
+            "ko": "카메라가 뒤로 이동하며 남자와 같은 속도로 후진",
+            "en": "Cinematic, 4K, Photorealistic. Tracking backward medium shot at eye level of a man in his 30s wearing a black trench coat, serious and determined expression, rain dripping from his face and hair in a futuristic city street, neon lights in purple and cyan reflecting on wet clothing, cinematic portrait with shallow depth of field.",
+            "speed": "medium"
+          }
+        },
+        "end": {
+          "shotType": "close-up",
+          "duration": 3,
+          "description": "남자의 눈과 결연한 표정에 포커스",
+          "prompt": "Extreme close-up of man's intense eyes, rain on eyelashes, neon reflections in pupils, gritty details, shallow depth of field, cinematic macro photography",
+          "motion": {
+            "ko": "남자의 눈에 천천히 줌 인하며 디테일 강조",
+            "en": "Cinematic, 4K, Photorealistic. Slow push-in extreme close-up shot of a man's intense blue eyes, raindrops on eyelashes and skin in macro detail, neon reflections in pupils showing purple and blue lights, gritty skin texture, extremely shallow depth of field with background bokeh.",
+            "speed": "very slow"
+          }
+        }
+      },
+      "transition": {
+        "type": "fade-to-black",
+        "duration": 1500
+      }
+    },
+    {
+      "sceneNumber": 3,
+      "sceneId": "scene_003",
+      "title": "거리의 군중",
+      "description": "복잡한 미래 도시의 거리 풍경",
+      "duration": 10,
+      "frames": {
+        "start": {
+          "shotType": "wide-shot",
+          "duration": 3,
+          "description": "붐비는 거리의 전경",
+          "prompt": "Crowded futuristic street market, diverse people with umbrellas, street vendors, holographic advertisements floating in air, steam rising from food stalls, atmospheric rain, cinematic wide angle",
+          "motion": {
+            "ko": "거리를 가로지르는 360도 패닝 샷",
+            "en": "Cinematic, 4K, Photorealistic. Wide-angle 360-degree panning shot at street level of a crowded futuristic street market, diverse crowd of people with colorful umbrellas, street vendors selling glowing food, holographic advertisements floating in the air, steam rising from food stalls, heavy rain creating atmospheric haze.",
+            "speed": "medium"
+          }
+        },
+        "middle": {
+          "shotType": "medium-shot",
+          "duration": 4,
+          "description": "군중 속을 걷는 사람들의 디테일",
+          "prompt": "Various people walking in futuristic rain, different styles of clothing, cyberpunk fashion, neon umbrellas, reflections on wet pavement, documentary style, photorealistic details",
+          "motion": {
+            "ko": "군중과 함께 이동하는 스테디캠 샷",
+            "en": "Cinematic, 4K, Photorealistic. Steadicam tracking shot moving through the crowd at medium height of various people walking in futuristic rain, wearing diverse cyberpunk fashion with LED accessories and neon umbrellas, reflections of purple and blue lights on wet pavement, documentary-style naturalistic movement with handheld feel.",
+            "speed": "medium"
+          }
+        },
+        "end": {
+          "shotType": "overhead-shot",
+          "duration": 3,
+          "description": "위에서 내려다본 거리의 패턴",
+          "prompt": "Top-down view of crowded street, umbrellas creating colorful patterns, rain splashing on ground, geometric composition, neon lights from above, artistic aerial cinematography",
+          "motion": {
+            "ko": "위에서 아래로 내려다보며 천천히 상승하는 크레인 샷",
+            "en": "Cinematic, 4K, Photorealistic. Slow rising crane shot, top-down aerial view of a crowded futuristic street, colorful umbrellas creating geometric patterns like flowers in the rain, neon lights from signs illuminating the scene from above, raindrops splashing on wet pavement creating ripples, artistic composition with symmetrical framing.",
+            "speed": "slow"
+          }
+        }
+      },
+      "transition": {
+        "type": "cross-dissolve",
+        "duration": 1000
+      }
+    }
+  ]
+}

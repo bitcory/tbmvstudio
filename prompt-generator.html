@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Prompt Generator</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #000000;
+            --bg-secondary: #1c1c1e;
+            --bg-tertiary: #2c2c2e;
+            --bg-elevated: #3a3a3c;
+            --text-primary: #ffffff;
+            --text-secondary: #98989d;
+            --text-tertiary: #636366;
+            --border: #38383a;
+            --accent: #ffffff;
+            --shadow: rgba(0, 0, 0, 0.5);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.5;
+            padding: 24px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .header p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 400;
+        }
+
+        /* Tabs */
+        .tabs {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .tabs-header {
+            display: flex;
+            background: var(--bg-tertiary);
+            padding: 4px;
+            gap: 4px;
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 10px 20px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            border-radius: 8px;
+        }
+
+        .tab-button:hover {
+            color: var(--text-primary);
+        }
+
+        .tab-button.active {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            box-shadow: 0 1px 3px var(--shadow);
+        }
+
+        .tab-content {
+            display: none;
+            padding: 24px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Form Grid */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-label {
+            font-weight: 500;
+            font-size: 0.8125rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            letter-spacing: -0.2px;
+        }
+
+        .form-label svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .form-select {
+            padding: 10px 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--bg-tertiary);
+            font-size: 0.875rem;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 8px center;
+            background-size: 16px;
+            padding-right: 32px;
+        }
+
+        .form-select:hover {
+            border-color: var(--text-tertiary);
+            background: var(--bg-elevated);
+        }
+
+        .form-select:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+        }
+
+        .form-select option {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            padding: 8px;
+        }
+
+        /* Result Section */
+        .result-section {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 24px;
+        }
+
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .result-header h3 {
+            font-size: 0.9375rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            letter-spacing: -0.3px;
+        }
+
+        .result-header h3 svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .result-textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 14px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--bg-secondary);
+            font-family: 'SF Mono', 'Monaco', 'Courier New', monospace;
+            font-size: 0.8125rem;
+            color: var(--text-primary);
+            resize: vertical;
+            line-height: 1.6;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .result-textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+        }
+
+        .result-textarea::placeholder {
+            color: var(--text-tertiary);
+        }
+
+        /* Buttons */
+        .button-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 10px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            letter-spacing: -0.2px;
+        }
+
+        .btn svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .btn-primary {
+            background: var(--text-primary);
+            color: var(--bg-primary);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: var(--bg-elevated);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-tertiary);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--bg-tertiary);
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            padding: 14px 20px;
+            border-radius: 10px;
+            box-shadow: 0 8px 24px var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1000;
+            backdrop-filter: blur(20px);
+            font-size: 0.875rem;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .toast svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .section-divider {
+            margin: 24px 0;
+            border: none;
+            border-top: 1px solid var(--border);
+        }
+
+        .section-title {
+            font-size: 0.9375rem;
+            font-weight: 600;
+            margin: 20px 0 12px 0;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            letter-spacing: -0.3px;
+        }
+
+        .section-title svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 16px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .tab-button {
+                font-size: 0.8125rem;
+                padding: 8px 16px;
+            }
+
+            .tab-content {
+                padding: 16px;
+            }
+
+            .result-header {
+                flex-direction: column;
+                gap: 10px;
+                align-items: flex-start;
+            }
+
+            .button-group {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .toast {
+                right: 16px;
+                left: 16px;
+                bottom: 16px;
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--bg-elevated);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-tertiary);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>
+                <i data-lucide="sparkles"></i>
+                AI 프롬프트 생성기
+            </h1>
+            <p>이미지 및 영상 생성을 위한 전문 프롬프트 빌더</p>
+        </div>
+
+        <div class="tabs">
+            <div class="tabs-header">
+                <button class="tab-button active" onclick="switchTab('image')">
+                    <i data-lucide="image"></i>
+                    이미지
+                </button>
+                <button class="tab-button" onclick="switchTab('video')">
+                    <i data-lucide="video"></i>
+                    영상
+                </button>
+            </div>
+
+            <!-- Image Prompt Tab -->
+            <div id="imageTab" class="tab-content active">
+                <div class="form-grid">
+                    <!-- Subject -->
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i data-lucide="user"></i>
+                            주제/피사체
+                        </label>
+                        <select id="img-subject" class="form-select">
+                            <option value="">주제 선택...</option>
+                            <option value="a young woman in her 20s">a young woman in her 20s - 20대 젊은 여성</option>
+                            <option value="a young man in his 20s">a young man in his 20s - 20대 젊은 남성</option>
+                            <option value="a child">a child - 어린이</option>
+                            <option value="an elderly person">an elderly person - 노인</option>
+                            <option value="a warrior">a warrior - 전사</option>
+                            <option value="a knight in armor">a knight in armor - 갑옷을 입은 기사</option>
+                            <option value="a scientist in a lab coat">a scientist in a lab coat - 연구복을 입은 과학자</option>
+                            <option value="a fashion model">a fashion model - 패션 모델</option>
+                            <option value="a musician">a musician - 음악가</option>
+                            <option value="an astronaut">an astronaut - 우주비행사</option>
+                            <option value="a majestic lion">a majestic lion - 위엄 있는 사자</option>
+                            <option value="a white wolf">a white wolf - 흰 늑대</option>
+                            <option value="a dragon with scales">a dragon with scales - 비늘이 있는 드래곤</option>
+                            <option value="a phoenix rising">a phoenix rising - 날아오르는 불사조</option>
+                            <option value="a modern skyscraper">a modern skyscraper - 현대식 고층빌딩</option>
+                            <option value="an ancient temple">an ancient temple - 고대 사원</option>
+                            <option value="a futuristic spaceship">a futuristic spaceship - 미래형 우주선</option>
+                            <option value="a sports car">a sports car - 스포츠카</option>
+                        </select>
+                    </div>
+
+                    <!-- Action/Pose -->
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i data-lucide="move"></i>
+                            액션/포즈
+                        </label>
+                        <select id="img-action" class="form-select">
+                            <option value="">액션 선택...</option>
+                            <option value="standing confidently">standing confidently - 자신감 있게 서 있는</option>
+                            <option value="standing with arms crossed">standing with arms crossed - 팔짱을 낀</option>
+                            <option value="walking forward">walking forward - 앞으로 걷는</option>
+                            <option value="running at full speed">running at full speed - 전속력으로 달리는</option>
+                            <option value="jumping in the air">jumping in the air - 공중에서 점프하는</option>
+                            <option value="sitting elegantly">sitting elegantly - 우아하게 앉은</option>
+                            <option value="leaning against wall">leaning against wall - 벽에 기댄</option>
+                            <option value="fighting stance">fighting stance - 전투 자세</option>
+                            <option value="wielding sword">wielding sword - 검을 휘두르는</option>
+                            <option value="casting magic spell">casting magic spell - 마법을 시전하는</option>
+                            <option value="looking directly at camera">looking directly at camera - 카메라를 똑바로 보는</option>
+                            <option value="looking over shoulder">looking over shoulder - 어깨 너머로 보는</option>
+                            <option value="reaching out hand">reaching out hand - 손을 뻗는</option>
+                            <option value="dancing gracefully">dancing gracefully - 우아하게 춤추는</option>
+                            <option value="floating in mid-air">floating in mid-air - 공중에 떠 있는</option>
+                        </select>
+                    </div>
+
+                    <!-- Environment -->
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i data-lucide="mountain"></i>
+                            환경/배경
+                        </label>
+                        <select id="img-environment" class="form-select">
+                            <option value="">환경 선택...</option>
+                            <option value="in a dense forest">in a dense forest - 울창한 숲에서</option>
+                            <option value="on a mountain peak">on a mountain peak - 산봉우리에서</option>
+                            <option value="on a tropical beach">on a tropical beach - 열대 해변에서</option>
+                            <option value="in a cyberpunk city">in a cyberpunk city - 사이버펑크 도시에서</option>
+                            <option value="in a neon-lit alley">in a neon-lit alley - 네온 조명 골목에서</option>
+                            <option value="in downtown city street">in downtown city street - 도심 거리에서</option>
+                            <option value="on city rooftop at night">on city rooftop at night - 밤의 도시 옥상에서</option>
+                            <option value="in ancient Roman colosseum">in ancient Roman colosseum - 고대 로마 콜로세움에서</option>
+                            <option value="in medieval castle hall">in medieval castle hall - 중세 성 홀에서</option>
+                            <option value="in Japanese temple garden">in Japanese temple garden - 일본 사원 정원에서</option>
+                            <option value="in outer space">in outer space - 우주 공간에서</option>
+                            <option value="in futuristic metropolis">in futuristic metropolis - 미래 대도시에서</option>
+                            <option value="in enchanted forest">in enchanted forest - 마법의 숲에서</option>
+                            <option value="in crystal cave">in crystal cave - 수정 동굴에서</option>
+                            <option value="underwater in coral reef">underwater in coral reef - 산호초 수중에서</option>
+                            <option value="in vast desert">in vast desert - 광활한 사막에서</option>
+                        </select>
+                    </div>
+
+                    <!-- Lighting -->
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i data-lucide="sun"></i>
+                            조명
+                        </label>
+                        <select id="img-lighting" class="form-select">
+                            <option value="">조명 선택...</option>
+                            <option value="golden hour lighting">golden hour lighting - 골든아워 조명</option>
+                            <option value="sunset lighting">sunset lighting - 일몰 조명</option>
+                            <option value="blue hour lighting">blue hour lighting - 블루아워 조명</option>
+                            <option value="dramatic side lighting">dramatic side lighting - 극적인 측면 조명</option>
+                            <option value="studio lighting setup">studio lighting setup - 스튜디오 조명</option>
+                            <option value="rim lighting">rim lighting - 림 라이팅</option>
+                            <option value="neon lighting">neon lighting - 네온 조명</option>
+                            <option value="warm indoor lighting">warm indoor lighting - 따뜻한 실내 조명</option>
+                            <option value="candlelight">candlelight - 촛불빛</option>
+                            <option value="volumetric lighting">volumetric lighting - 볼류메트릭 조명</option>
+                            <option value="god rays">god rays - 신의 광선</option>
+                            <option value="soft diffused light">soft diffused light - 부드럽게 확산된 빛</option>
+                            <option value="dramatic chiaroscuro">dramatic chiaroscuro - 극적인 명암대비</option>
+                            <option value="bioluminescent glow">bioluminescent glow - 생물발광</option>
+                            <option value="magical glow">magical glow - 마법적 빛</option>
+                            <option value="backlit by sun">backlit by sun - 태양에 역광</option>
+                        </select>
+                    </div>
+
+                    <!-- Camera Angle -->
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i data-lucide="camera"></i>
+                            카메라 앵글
+                        </label>
+                        <select id="img-camera" class="form-select">
+                            <option value="">카메라 앵글 선택...</option>
+                            <option value="close-up">close-up - 클로즈업</option>
+                            <option value="medium shot">medium shot - 미디엄 샷</option>
+                            <option value="full shot">full shot - 풀 샷</option>
+                            <option value="wide shot">wide shot - 와이드 샷</option>
+                            <option value="extreme wide shot">extreme wide shot - 익스트림 와이드 샷</option>
+                            <option value="eye level">eye level - 아이 레벨</option>
+                            <option value="low angle">low angle - 로우 앵글</option>
+                            <option value="high angle">high angle - 하이 앵글</option>
+                            <option value="bird's eye view">bird's eye view - 버드 아이 뷰</option>
+                            <option value="worm's eye view">worm's eye view - 웜스 아이 뷰</option>
+                            <option value="three-quarter view">three-quarter view - 3/4 뷰</option>
+                            <option value="profile view">profile view - 측면 뷰</option>
+                            <option value="over-the-shoulder">over-the-shoulder - 어깨 너머</option>
+                            <option value="macro shot">macro shot - 마크로 샷</option>
+                        </select>
+                    </div>
+
+                    <!-- Style/Mood -->
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i data-lucide="palette"></i>
+                            스타일/무드
+                        </label>
+                        <select id="img-style" class="form-select">
+                            <option value="">스타일 선택...</option>
+                            <option value="cinematic">cinematic - 영화적</option>
+                            <option value="photorealistic">photorealistic - 포토리얼리스틱</option>
+                            <option value="hyperrealistic">hyperrealistic - 하이퍼리얼리스틱</option>
+                            <option value="dreamy and ethereal">dreamy and ethereal - 꿈같고 영묘한</option>
+                            <option value="dark and moody">dark and moody - 어둡고 무드 있는</option>
+                            <option value="bright and cheerful">bright and cheerful - 밝고 경쾌한</option>
+                            <option value="mysterious">mysterious - 신비로운</option>
+                            <option value="serene and peaceful">serene and peaceful - 고요하고 평화로운</option>
+                            <option value="dynamic and energetic">dynamic and energetic - 역동적이고 에너제틱한</option>
+                            <option value="elegant and sophisticated">elegant and sophisticated - 우아하고 세련된</option>
+                            <option value="cyberpunk style">cyberpunk style - 사이버펑크 스타일</option>
+                            <option value="steampunk style">steampunk style - 스팀펑크 스타일</option>
+                            <option value="vintage 1950s style">vintage 1950s style - 1950년대 빈티지</option>
+                            <option value="minimalist">minimalist - 미니멀리스트</option>
+                            <option value="surrealism">surrealism - 초현실주의</option>
+                        </select>
+                    </div>
+
+                    <!-- Color/Tone -->
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i data-lucide="droplet"></i>
+                            색감/톤
+                        </label>
+                        <select id="img-color" class="form-select">
+                            <option value="">색감 선택...</option>
+                            <option value="warm tones">warm tones - 따뜻한 톤</option>
+                            <option value="cool tones">cool tones - 차가운 톤</option>
+                            <option value="blue and orange color grading">blue and orange color grading - 블루 앤 오렌지</option>
+                            <option value="pink and cyan">pink and cyan - 핑크와 시안</option>
+                            <option value="vibrant colors">vibrant colors - 선명한 색상</option>
+                            <option value="muted colors">muted colors - 음소거된 색상</option>
+                            <option value="pastel colors">pastel colors - 파스텔 색상</option>
+                            <option value="neon colors">neon colors - 네온 색상</option>
+                            <option value="monochromatic">monochromatic - 단색</option>
+                            <option value="high contrast">high contrast - 높은 대비</option>
+                            <option value="low contrast">low contrast - 낮은 대비</option>
+                            <option value="sepia tones">sepia tones - 세피아 톤</option>
+                            <option value="golden tones">golden tones - 골든 톤</option>
+                        </select>
+                    </div>
+
+                    <!-- Quality -->
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i data-lucide="award"></i>
+                            품질
+                        </label>
+                        <select id="img-quality" class="form-select">
+                            <option value="">품질 선택...</option>
+                            <option value="8K resolution, ultra detailed">8K resolution, ultra detailed - 8K 초디테일</option>
+                            <option value="4K resolution, highly detailed">4K resolution, highly detailed - 4K 고디테일</option>
+                            <option value="photorealistic, sharp focus">photorealistic, sharp focus - 포토리얼, 선명한 초점</option>
+                            <option value="ultra high definition">ultra high definition - 초고화질</option>
+                            <option value="intricate details">intricate details - 복잡한 디테일</option>
+                            <option value="shallow depth of field">shallow depth of field - 얕은 피사계 심도</option>
+                            <option value="deep depth of field">deep depth of field - 깊은 피사계 심도</option>
+                            <option value="bokeh background">bokeh background - 보케 배경</option>
+                            <option value="tack sharp">tack sharp - 완벽하게 선명</option>
+                            <option value="film grain">film grain - 필름 그레인</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn btn-primary" onclick="generateImagePrompt()">
+                        <i data-lucide="wand-2"></i>
+                        생성
+                    </button>
+                    <button class="btn btn-outline" onclick="resetImageForm()">
+                        <i data-lucide="refresh-cw"></i>
+                        초기화
+                    </button>
+                </div>
+
+                <div class="result-section">
+                    <div class="result-header">
+                        <h3>
+                            <i data-lucide="file-text"></i>
+                            생성된 프롬프트
+                        </h3>
+                        <button class="btn btn-secondary" onclick="copyToClipboard('img-result')">
+                            <i data-lucide="copy"></i>
+                            복사
+                        </button>
+                    </div>
+                    <textarea id="img-result" class="result-textarea" placeholder="옵션을 선택하고 '생성' 버튼을 클릭하세요"></textarea>
+                </div>
+            </div>
+
+            <!-- Video Prompt Tab -->
+            <div id="videoTab" class="tab-content">
+                <div class="section-title">
+                    <i data-lucide="camera"></i>
+                    카메라 움직임
+                </div>
+
+                <div class="form-grid">
+                    <!-- Camera Movement -->
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i data-lucide="move-diagonal"></i>
+                            줌/이동
+                        </label>
+                        <select id="vid-movement" class="form-select">
+                            <option value="">움직임 선택...</option>
+                            <option value="zoom in">zoom in - 줌 인</option>
+                            <option value="zoom out">zoom out - 줌 아웃</option>
+                            <option value="dolly in">dolly in - 돌리 인</option>
+                            <option value="dolly out">dolly out - 돌리 아웃</option>
+                        </select>
+                    </div>
+
+                    <!-- Rotation -->
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i data-lucide="rotate-cw"></i>
+                            회전
+                        </label>
+                        <select id="vid-rotation" class="form-select">
+                            <option value="">회전 선택...</option>
+                            <option value="pan left">pan left - 좌측 팬</option>
+                            <option value="pan right">pan right - 우측 팬</option>
+                            <option value="tilt up">tilt up - 위로 틸트</option>
+                            <option value="tilt down">tilt down - 아래로 틸트</option>
+                        </select>
+                    </div>
+
+                    <!-- Parallel Movement -->
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i data-lucide="arrow-right"></i>
+                            평행 이동
+                        </label>
+                        <select id="vid-parallel" class="form-select">
+                            <option value="">평행 이동 선택...</option>
+                            <option value="truck left">truck left - 좌측 트럭</option>
+                            <option value="truck right">truck right - 우측 트럭</option>
+                            <option value="pedestal up">pedestal up - 페데스탈 업</option>
+                            <option value="pedestal down">pedestal down - 페데스탈 다운</option>
+                        </select>
+                    </div>
+
+                    <!-- Special Effects -->
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i data-lucide="orbit"></i>
+                            특수 효과
+                        </label>
+                        <select id="vid-special" class="form-select">
+                            <option value="">특수 효과 선택...</option>
+                            <option value="orbit shot clockwise">orbit shot clockwise - 시계방향 오빗</option>
+                            <option value="orbit shot counterclockwise">orbit shot counterclockwise - 반시계방향 오빗</option>
+                            <option value="crane up">crane up - 크레인 업</option>
+                            <option value="crane down">crane down - 크레인 다운</option>
+                            <option value="tracking shot">tracking shot - 트래킹 샷</option>
+                            <option value="handheld">handheld - 핸드헬드</option>
+                        </select>
+                    </div>
+
+                    <!-- Speed/Style -->
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i data-lucide="gauge"></i>
+                            속도/스타일
+                        </label>
+                        <select id="vid-speed" class="form-select">
+                            <option value="">속도 선택...</option>
+                            <option value="slow">slow - 느린</option>
+                            <option value="fast">fast - 빠른</option>
+                            <option value="smooth">smooth - 부드러운</option>
+                            <option value="dramatic">dramatic - 극적인</option>
+                            <option value="gentle">gentle - 부드러운</option>
+                            <option value="steady">steady - 안정적인</option>
+                        </select>
+                    </div>
+                </div>
+
+                <hr class="section-divider">
+
+                <div class="section-title">
+                    <i data-lucide="image"></i>
+                    장면 구성
+                </div>
+
+                <div class="form-grid">
+                    <!-- Subject -->
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i data-lucide="user"></i>
+                            주제/피사체
+                        </label>
+                        <select id="vid-subject" class="form-select">
+                            <option value="">주제 선택...</option>
+                            <option value="a young woman in her 20s">a young woman in her 20s - 20대 젊은 여성</option>
+                            <option value="a young man in his 20s">a young man in his 20s - 20대 젊은 남성</option>
+                            <option value="a child">a child - 어린이</option>
+                            <option value="an elderly person">an elderly person - 노인</option>
+                            <option value="a warrior">a warrior - 전사</option>
+                            <option value="a knight in armor">a knight in armor - 갑옷을 입은 기사</option>
+                            <option value="a scientist in a lab coat">a scientist in a lab coat - 연구복을 입은 과학자</option>
+                            <option value="a fashion model">a fashion model - 패션 모델</option>
+                            <option value="a musician">a musician - 음악가</option>
+                            <option value="an astronaut">an astronaut - 우주비행사</option>
+                            <option value="a majestic lion">a majestic lion - 위엄 있는 사자</option>
+                            <option value="a dragon with scales">a dragon with scales - 비늘이 있는 드래곤</option>
+                            <option value="a futuristic spaceship">a futuristic spaceship - 미래형 우주선</option>
+                            <option value="a sports car">a sports car - 스포츠카</option>
+                        </select>
+                    </div>
+
+                    <!-- Action -->
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i data-lucide="move"></i>
+                            액션/포즈
+                        </label>
+                        <select id="vid-action" class="form-select">
+                            <option value="">액션 선택...</option>
+                            <option value="standing confidently">standing confidently - 자신감 있게 서 있는</option>
+                            <option value="walking forward">walking forward - 앞으로 걷는</option>
+                            <option value="running at full speed">running at full speed - 전속력으로 달리는</option>
+                            <option value="jumping in the air">jumping in the air - 공중에서 점프하는</option>
+                            <option value="sitting elegantly">sitting elegantly - 우아하게 앉은</option>
+                            <option value="fighting stance">fighting stance - 전투 자세</option>
+                            <option value="dancing gracefully">dancing gracefully - 우아하게 춤추는</option>
+                            <option value="looking directly at camera">looking directly at camera - 카메라를 똑바로 보는</option>
+                        </select>
+                    </div>
+
+                    <!-- Environment -->
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i data-lucide="mountain"></i>
+                            환경/배경
+                        </label>
+                        <select id="vid-environment" class="form-select">
+                            <option value="">환경 선택...</option>
+                            <option value="in a dense forest">in a dense forest - 울창한 숲에서</option>
+                            <option value="on a mountain peak">on a mountain peak - 산봉우리에서</option>
+                            <option value="in a cyberpunk city">in a cyberpunk city - 사이버펑크 도시에서</option>
+                            <option value="on city rooftop at night">on city rooftop at night - 밤의 도시 옥상에서</option>
+                            <option value="in medieval castle hall">in medieval castle hall - 중세 성 홀에서</option>
+                            <option value="in outer space">in outer space - 우주 공간에서</option>
+                            <option value="underwater in coral reef">underwater in coral reef - 산호초 수중에서</option>
+                        </select>
+                    </div>
+
+                    <!-- Lighting -->
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i data-lucide="sun"></i>
+                            조명
+                        </label>
+                        <select id="vid-lighting" class="form-select">
+                            <option value="">조명 선택...</option>
+                            <option value="golden hour lighting">golden hour lighting - 골든아워 조명</option>
+                            <option value="sunset lighting">sunset lighting - 일몰 조명</option>
+                            <option value="dramatic side lighting">dramatic side lighting - 극적인 측면 조명</option>
+                            <option value="neon lighting">neon lighting - 네온 조명</option>
+                            <option value="volumetric lighting">volumetric lighting - 볼류메트릭 조명</option>
+                            <option value="magical glow">magical glow - 마법적 빛</option>
+                        </select>
+                    </div>
+
+                    <!-- Style -->
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i data-lucide="palette"></i>
+                            스타일/무드
+                        </label>
+                        <select id="vid-style" class="form-select">
+                            <option value="">스타일 선택...</option>
+                            <option value="cinematic">cinematic - 영화적</option>
+                            <option value="photorealistic">photorealistic - 포토리얼리스틱</option>
+                            <option value="dreamy and ethereal">dreamy and ethereal - 꿈같고 영묘한</option>
+                            <option value="dark and moody">dark and moody - 어둡고 무드 있는</option>
+                            <option value="mysterious">mysterious - 신비로운</option>
+                            <option value="dynamic and energetic">dynamic and energetic - 역동적이고 에너제틱한</option>
+                        </select>
+                    </div>
+
+                    <!-- Quality -->
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i data-lucide="award"></i>
+                            품질
+                        </label>
+                        <select id="vid-quality" class="form-select">
+                            <option value="">품질 선택...</option>
+                            <option value="8K resolution, ultra detailed">8K resolution, ultra detailed - 8K 초디테일</option>
+                            <option value="4K resolution, highly detailed">4K resolution, highly detailed - 4K 고디테일</option>
+                            <option value="photorealistic, sharp focus">photorealistic, sharp focus - 포토리얼, 선명한 초점</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn btn-primary" onclick="generateVideoPrompt()">
+                        <i data-lucide="wand-2"></i>
+                        생성
+                    </button>
+                    <button class="btn btn-outline" onclick="resetVideoForm()">
+                        <i data-lucide="refresh-cw"></i>
+                        초기화
+                    </button>
+                </div>
+
+                <div class="result-section">
+                    <div class="result-header">
+                        <h3>
+                            <i data-lucide="file-text"></i>
+                            Generated Prompt
+                        </h3>
+                        <button class="btn btn-secondary" onclick="copyToClipboard('vid-result')">
+                            <i data-lucide="copy"></i>
+                            Copy
+                        </button>
+                    </div>
+                    <textarea id="vid-result" class="result-textarea" placeholder="옵션을 선택하고 '생성' 버튼을 클릭하세요"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <i data-lucide="check-circle"></i>
+        <span id="toast-message">복사되었습니다!</span>
+    </div>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Tab switching
+        function switchTab(tabName) {
+            const tabs = document.querySelectorAll('.tab-content');
+            const buttons = document.querySelectorAll('.tab-button');
+
+            tabs.forEach(tab => tab.classList.remove('active'));
+            buttons.forEach(btn => btn.classList.remove('active'));
+
+            if (tabName === 'image') {
+                document.getElementById('imageTab').classList.add('active');
+                buttons[0].classList.add('active');
+            } else {
+                document.getElementById('videoTab').classList.add('active');
+                buttons[1].classList.add('active');
+            }
+        }
+
+        // Generate Image Prompt
+        function generateImagePrompt() {
+            const parts = [];
+
+            const subject = document.getElementById('img-subject').value;
+            const action = document.getElementById('img-action').value;
+            const environment = document.getElementById('img-environment').value;
+            const lighting = document.getElementById('img-lighting').value;
+            const camera = document.getElementById('img-camera').value;
+            const style = document.getElementById('img-style').value;
+            const color = document.getElementById('img-color').value;
+            const quality = document.getElementById('img-quality').value;
+
+            if (subject) parts.push(subject);
+            if (action) parts.push(action);
+            if (environment) parts.push(environment);
+            if (lighting) parts.push(lighting);
+            if (camera) parts.push(camera);
+            if (style) parts.push(style);
+            if (color) parts.push(color);
+            if (quality) parts.push(quality);
+
+            const prompt = parts.join(', ');
+            document.getElementById('img-result').value = prompt || '옵션을 선택해주세요.';
+        }
+
+        // Generate Video Prompt
+        function generateVideoPrompt() {
+            const cameraParts = [];
+            const sceneParts = [];
+
+            // Camera movements
+            const movement = document.getElementById('vid-movement').value;
+            const rotation = document.getElementById('vid-rotation').value;
+            const parallel = document.getElementById('vid-parallel').value;
+            const special = document.getElementById('vid-special').value;
+            const speed = document.getElementById('vid-speed').value;
+
+            // Scene elements
+            const subject = document.getElementById('vid-subject').value;
+            const action = document.getElementById('vid-action').value;
+            const environment = document.getElementById('vid-environment').value;
+            const lighting = document.getElementById('vid-lighting').value;
+            const style = document.getElementById('vid-style').value;
+            const quality = document.getElementById('vid-quality').value;
+
+            // Build camera movement string
+            if (speed) cameraParts.push(speed);
+            if (movement) cameraParts.push(movement);
+            if (rotation) cameraParts.push(rotation);
+            if (parallel) cameraParts.push(parallel);
+            if (special) cameraParts.push(special);
+
+            // Build scene string
+            if (subject) sceneParts.push(subject);
+            if (action) sceneParts.push(action);
+            if (environment) sceneParts.push(environment);
+            if (lighting) sceneParts.push(lighting);
+            if (style) sceneParts.push(style);
+            if (quality) sceneParts.push(quality);
+
+            const cameraString = cameraParts.join(' ');
+            const sceneString = sceneParts.join(', ');
+
+            let prompt = '';
+            if (cameraString && sceneString) {
+                prompt = `${cameraString}, ${sceneString}`;
+            } else if (cameraString) {
+                prompt = cameraString;
+            } else if (sceneString) {
+                prompt = sceneString;
+            } else {
+                prompt = '옵션을 선택해주세요.';
+            }
+
+            document.getElementById('vid-result').value = prompt;
+        }
+
+        // Reset forms
+        function resetImageForm() {
+            document.getElementById('img-subject').value = '';
+            document.getElementById('img-action').value = '';
+            document.getElementById('img-environment').value = '';
+            document.getElementById('img-lighting').value = '';
+            document.getElementById('img-camera').value = '';
+            document.getElementById('img-style').value = '';
+            document.getElementById('img-color').value = '';
+            document.getElementById('img-quality').value = '';
+            document.getElementById('img-result').value = '';
+        }
+
+        function resetVideoForm() {
+            document.getElementById('vid-movement').value = '';
+            document.getElementById('vid-rotation').value = '';
+            document.getElementById('vid-parallel').value = '';
+            document.getElementById('vid-special').value = '';
+            document.getElementById('vid-speed').value = '';
+            document.getElementById('vid-subject').value = '';
+            document.getElementById('vid-action').value = '';
+            document.getElementById('vid-environment').value = '';
+            document.getElementById('vid-lighting').value = '';
+            document.getElementById('vid-style').value = '';
+            document.getElementById('vid-quality').value = '';
+            document.getElementById('vid-result').value = '';
+        }
+
+        // Copy to clipboard
+        function copyToClipboard(elementId) {
+            const textarea = document.getElementById(elementId);
+            const text = textarea.value;
+
+            if (!text || text.includes('옵션을 선택')) {
+                showToast('복사할 내용이 없습니다', 'error');
+                return;
+            }
+
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('복사되었습니다!');
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+                showToast('복사 실패', 'error');
+            });
+        }
+
+        // Show toast notification
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const messageEl = document.getElementById('toast-message');
+
+            messageEl.textContent = message;
+            toast.classList.add('show');
+
+            // Re-initialize icons
+            lucide.createIcons();
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

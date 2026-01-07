@@ -1,0 +1,231 @@
+{
+  "project": {
+    "title": "동방불패: 무적의 서막",
+    "description": "동방불패와 정파 고수의 숙명적 대결을 예고하는 1분 분량의 3D 사실주의 인트로 영상입니다.",
+    "style": "photorealistic",
+    "aspectRatio": "16:9",
+    "totalDuration": 60,
+    "createdAt": "2025-10-22T10:45:00+09:00"
+  },
+  "scenario": {
+    "title": "무적의 서막",
+    "summary": "험준한 산봉우리를 배경으로, 정파 고수가 사원에 도착하지만, 동방불패의 압도적인 힘(바늘)에 의해 대나무 숲이 파괴되는 것을 목격합니다. 마지막 씬, 두 절대 고수가 사원 지붕 위에서 마주합니다.",
+    "script": "천하가 혼돈에 빠지고, 무림의 질서가 무너질 때... 태양을 가리는 그림자와, 그에 맞서는 빛이 있으니. 운명이 시작된다."
+  },
+  "characters": [
+    {
+      "id": "char_001",
+      "name": "동방불패 (신비로운 고수)",
+      "description": "성별을 초월한 신비로운 외모를 지닌 절대 고수. 붉은 색과 금색이 어우러진 화려한 의복을 입고 있습니다.",
+      "visualDescription": "An androgynous martial arts master, ethereal and imposing, with piercing eyes, wearing elaborate red and gold embroidered robes, long black hair flowing.",
+      "consistency": "붉은색과 금색의 화려한 의복, 중성적인 외모, 날카로운 눈빛",
+      "consistency_tr": "elaborate red and gold robes, androgynous appearance, piercing eyes"
+    },
+    {
+      "id": "char_002",
+      "name": "이천운 (정파 고수)",
+      "description": "굳은 신념을 지닌 정파의 최고수. 푸른색의 간결한 도포를 입고 있으며, 정의롭고 강직한 눈빛을 가졌습니다.",
+      "visualDescription": "A righteous and steadfast martial arts master, with a strong jawline and determined eyes, wearing a simple yet elegant blue robe, his hair tied up neatly.",
+      "consistency": "푸른색 도포, 강직한 눈빛, 굳게 다문 입",
+      "consistency_tr": "blue robe, determined eyes, strong jawline"
+    }
+  ],
+  "keyProps": [
+    {
+      "name": "P01_Needle",
+      "visualDescription": "A single, slender, glowing golden needle, held delicately between two fingers, trailing a thin red thread."
+    },
+    {
+      "name": "P02_Sword",
+      "visualDescription": "A sharp, gleaming silver longsword with a simple jade hilt, exuding a cold, righteous aura."
+    }
+  ],
+  "scenes": [
+    {
+      "scene": 1,
+      "description": "안개 낀 험준한 산봉우리. 정파 고수 이천운이 사원을 향해 나아갑니다.",
+      "setting": {
+        "location": "The jagged peaks of Huangshan-like mountains, shrouded in thick, swirling mist, near an ancient temple entrance.",
+        "timeOfDay": "Misty dawn.",
+        "atmosphere": "Mystical, imposing, tense."
+      },
+      "shots": {
+        "start": {
+          "shotType": "Establishing Shot",
+          "duration": 5,
+          "description": "안개가 자욱한 광활한 산봉우리들과 그 사이로 보이는 사원의 실루엣.",
+          "promptStructure": {
+            "subject": "In the jagged peaks of Huangshan-like mountains, shrouded in thick, swirling mist, near an ancient temple entrance, a vast, imposing landscape is revealed with the silhouette of a temple.",
+            "composition": "Extreme long shot, wide angle, static camera.",
+            "style": "3D render, photorealistic, Chinese Wuxia film style, cinematic, epic, dramatic lighting, octane render.",
+            "details": "Thick fog, sharp granite peaks, muted dawn colors.",
+            "parameters": "--ar 16:9 --style raw"
+          },
+          "motion": {
+            "ko": "움직임 없음 (정적).",
+            "en": "3D render, photorealistic, Chinese Wuxia film style, cinematic, epic, dramatic lighting, octane render. Static extreme long shot, wide angle of the jagged peaks of Huangshan-like mountains, shrouded in thick, swirling mist, with the silhouette of a temple, revealing a vast imposing landscape in misty dawn with thick fog, sharp granite peaks, muted dawn colors, mystical and tense atmosphere.",
+            "speed": "static"
+          }
+        },
+        "middle": {
+          "shotType": "Tracking Shot",
+          "duration": 6,
+          "description": "정파 고수 '이천운'이 좁은 산길을 따라 사원을 향해 걸어가는 뒷모습.",
+          "promptStructure": {
+            "subject": "In the jagged peaks of Huangshan-like mountains, shrouded in thick, swirling mist, near an ancient temple entrance, a figure walks determinedly on a narrow path, by (A righteous and steadfast martial arts master, with a strong jawline and determined eyes, wearing a simple yet elegant blue robe, his hair tied up neatly) with (A sharp, gleaming silver longsword with a simple jade hilt, exuding a cold, righteous aura) strapped to his back.",
+            "composition": "Full shot, tracking shot from behind, eye-level.",
+            "style": "3D render, photorealistic, Chinese Wuxia film style, cinematic, following, octane render.",
+            "details": "Mist swirling around his feet, determined gait, blue robe stands out against the grey mist.",
+            "parameters": "--ar 16:9 --style raw"
+          },
+          "motion": {
+            "ko": "카메라가 인물의 뒤를 따라 이동 (트래킹).",
+            "en": "3D render, photorealistic, Chinese Wuxia film style, cinematic, octane render. Tracking shot from behind at eye-level, following a righteous martial arts master in a blue robe with a silver sword strapped to his back, walking determinedly on a narrow mountain path in the jagged peaks of Huangshan-like mountains, shrouded in thick, swirling mist near an ancient temple entrance, mist swirling around his feet, blue robe stands out against the grey mist.",
+            "speed": "medium"
+          }
+        },
+        "end": {
+          "shotType": "Medium Close Up",
+          "duration": 4,
+          "description": "사원 입구에 도착한 이천운의 굳은 표정.",
+          "promptStructure": {
+            "subject": "In the jagged peaks of Huangshan-like mountains, shrouded in thick, swirling mist, near an ancient temple entrance, a tense expression is seen, by (A righteous and steadfast martial arts master, with a strong jawline and determined eyes, wearing a simple yet elegant blue robe, his hair tied up neatly).",
+            "composition": "Medium close-up, profile shot, shallow depth of field.",
+            "style": "3D render, photorealistic, Chinese Wuxia film style, cinematic, serious, octane render.",
+            "details": "Determined eyes, looking towards the temple entrance.",
+            "parameters": "--ar 16:9 --style raw"
+          },
+          "motion": {
+            "ko": "움직임 없음 (정적).",
+            "en": "3D render, photorealistic, Chinese Wuxia film style, cinematic, serious, octane render. Static medium close-up, profile shot with shallow depth of field of a righteous martial arts master with a strong jawline and determined eyes, wearing a blue robe near an ancient temple entrance in the jagged peaks of Huangshan-like mountains, shrouded in thick mist, determined eyes looking towards the temple entrance.",
+            "speed": "static"
+          }
+        }
+      }
+    },
+    {
+      "scene": 2,
+      "description": "사원 정원, 동방불패의 힘에 의해 대나무 숲이 파괴되고, 이천운이 이를 목격합니다.",
+      "setting": {
+        "location": "An ancient temple courtyard, overgrown with a dense bamboo forest.",
+        "timeOfDay": "Overcast midday.",
+        "atmosphere": "Tense, chaotic, powerful."
+      },
+      "shots": {
+        "start": {
+          "shotType": "Action Shot",
+          "duration": 8,
+          "description": "이천운이 막 안뜰로 들어서는 순간, 보이지 않는 힘(바늘)에 의해 대나무들이 격렬하게 잘려나갑니다.",
+          "promptStructure": {
+            "subject": "In an ancient temple courtyard, overgrown with a dense bamboo forest, a violent, unseen force rips through the air, (A single, slender, glowing golden needle, held delicately between two fingers, trailing a thin red thread) blurs past, as (A righteous and steadfast martial arts master, with a strong jawline and determined eyes, wearing a simple yet elegant blue robe, his hair tied up neatly) just enters and reacts in shock.",
+            "composition": "Medium shot, high-speed, chaotic.",
+            "style": "3D render, photorealistic, Chinese Wuxia film style, cinematic, impactful, octane render.",
+            "details": "Leaves exploding, bamboo stalks slicing and falling, golden blur.",
+            "parameters": "--ar 16:9 --style raw"
+          },
+          "motion": {
+            "ko": "카메라가 격렬하게 흔들리며, 보이지 않는 물체를 따라 빠르게 팬.",
+            "en": "3D render, photorealistic, Chinese Wuxia film style, cinematic, impactful, octane render. Fast, chaotic whip pan medium shot, tracking the unseen glowing golden needle blurring through the air as a martial arts master in a blue robe enters an ancient temple courtyard with a dense bamboo forest in overcast midday, violent unseen force ripping through, leaves exploding, bamboo stalks slicing and falling, tense and chaotic atmosphere.",
+            "speed": "fast"
+          }
+        },
+        "middle": {
+          "shotType": "Reaction Shot",
+          "duration": 6,
+          "description": "쓰러지는 대나무들 사이로, 경악하며 검(P02_Sword)의 손잡이를 꽉 쥐는 이천운.",
+          "promptStructure": {
+            "subject": "In an ancient temple courtyard, overgrown with a dense bamboo forest, a shocked reaction is seen, by (A righteous and steadfast martial arts master, with a strong jawline and determined eyes, wearing a simple yet elegant blue robe, his hair tied up neatly) who grips the hilt of his (A sharp, gleaming silver longsword with a simple jade hilt, exuding a cold, righteous aura).",
+            "composition": "Close-up on the character's face and hand.",
+            "style": "3D render, photorealistic, Chinese Wuxia film style, cinematic, tense, focus pull, octane render.",
+            "details": "Falling bamboo in the background (bokeh), intense focus in his eyes, knuckles turning white on the hilt.",
+            "parameters": "--ar 16:9 --style raw"
+          },
+          "motion": {
+            "ko": "초점이 얼굴에서 검 손잡이로 빠르게 이동 (랙 포커스).",
+            "en": "3D render, photorealistic, Chinese Wuxia film style, cinematic, tense, octane render. Rack focus close-up from the shocked face to the hand gripping the silver sword hilt of a martial arts master in a blue robe in an ancient temple courtyard with dense bamboo forest, falling bamboo in the background creating bokeh, intense focus in his eyes, knuckles turning white on the jade hilt, tense atmosphere.",
+            "speed": "medium"
+          }
+        },
+        "end": {
+          "shotType": "Look Up Shot",
+          "duration": 6,
+          "description": "이천운이 파괴의 근원지를 찾아 사원 지붕 위를 올려다봅니다.",
+          "promptStructure": {
+            "subject": "In an ancient temple courtyard, overgrown with a dense bamboo forest, a determined gaze looks upward, by (A righteous and steadfast martial arts master, with a strong jawline and determined eyes, wearing a simple yet elegant blue robe, his hair tied up neatly).",
+            "composition": "Low angle shot from character's POV, looking up towards the temple roof.",
+            "style": "3D render, photorealistic, Chinese Wuxia film style, cinematic, anticipating, octane render.",
+            "details": "Debris settling, dust in the air, looking up towards an unseen figure.",
+            "parameters": "--ar 16:9 --style raw"
+          },
+          "motion": {
+            "ko": "카메라가 아래에서 위로 빠르게 틸트 업.",
+            "en": "3D render, photorealistic, Chinese Wuxia film style, cinematic, anticipating, octane render. Fast tilt up low angle shot from character's POV of a martial arts master in a blue robe looking up towards the temple roof in an ancient temple courtyard with dense bamboo forest in overcast midday, debris settling, dust in the air, looking towards an unseen figure, tense and anticipating atmosphere.",
+            "speed": "fast"
+          }
+        }
+      }
+    },
+    {
+      "scene": 3,
+      "description": "사원의 지붕 위, 두 고수가 드디어 마주합니다. 동방불패는 바늘을, 이천운은 검을 들고 대치합니다.",
+      "setting": {
+        "location": "The ornate, curved rooftop of the ancient temple, overlooking the misty mountains.",
+        "timeOfDay": "Misty dawn.",
+        "atmosphere": "Dominant, cold, confrontational."
+      },
+      "shots": {
+        "start": {
+          "shotType": "Low Angle Shot",
+          "duration": 7,
+          "description": "지붕 위에 먼저 서 있는 동방불패의 압도적인 실루엣. 붉은 옷이 펄럭입니다.",
+          "promptStructure": {
+            "subject": "On the ornate, curved rooftop of the ancient temple, overlooking the misty mountains, a powerful silhouette stands, by (An androgynous martial arts master, ethereal and imposing, with piercing eyes, wearing elaborate red and gold embroidered robes, long black hair flowing).",
+            "composition": "Low angle shot, full shot, looking up.",
+            "style": "3D render, photorealistic, Chinese Wuxia film style, cinematic, backlit, strong silhouette, iconic, octane render.",
+            "details": "Red robes fluttering dramatically in the wind, mist swirling around the figure.",
+            "parameters": "--ar 16:9 --style raw"
+          },
+          "motion": {
+            "ko": "카메라가 아래에서 위로 천천히 이동 (크레인 업).",
+            "en": "3D render, photorealistic, Chinese Wuxia film style, cinematic, backlit, iconic, octane render. Slow crane up low angle shot, full shot looking up at an androgynous martial arts master in elaborate red and gold embroidered robes with flowing black hair, standing on the ornate curved rooftop of an ancient temple, overlooking the misty mountains in misty dawn, red robes fluttering dramatically in the wind, mist swirling around, dominant and confrontational atmosphere.",
+            "speed": "slow"
+          }
+        },
+        "middle": {
+          "shotType": "Two Shot (Standoff)",
+          "duration": 9,
+          "description": "동방불패와 막 지붕으로 올라선 이천운이 서로를 마주 봅니다.",
+          "promptStructure": {
+            "subject": "On the ornate, curved rooftop of the ancient temple, overlooking the misty mountains, a tense standoff occurs, by (An androgynous martial arts master, ethereal and imposing, with piercing eyes, wearing elaborate red and gold embroidered robes, long black hair flowing) and (A righteous and steadfast martial arts master, with a strong jawline and determined eyes, wearing a simple yet elegant blue robe, his hair tied up neatly).",
+            "composition": "Two shot, medium full shot, eye-level, symmetrical.",
+            "style": "3D render, photorealistic, Chinese Wuxia film style, cinematic, confrontational, epic, octane render.",
+            "details": "Red robes vs blue robes, wind blowing, intense staring, mist between them.",
+            "parameters": "--ar 16:9 --style raw"
+          },
+          "motion": {
+            "ko": "카메라가 두 인물 사이를 아주 천천히 전진 (돌리 인).",
+            "en": "3D render, photorealistic, Chinese Wuxia film style, cinematic, confrontational, epic, octane render. Very slow dolly in, two shot medium full shot at eye-level symmetrical of an androgynous martial arts master in elaborate red and gold robes and a righteous master in blue robe, facing each other on the ornate curved rooftop of an ancient temple, overlooking the misty mountains in misty dawn, red robes vs blue robes, wind blowing, intense staring, mist between them, confrontational atmosphere.",
+            "speed": "very slow"
+          }
+        },
+        "end": {
+          "shotType": "Split Close-up (Prop)",
+          "duration": 5,
+          "description": "동방불패의 손에 들린 금빛 바늘(P01)과 이천운이 뽑아든 은빛 검(P02)이 대비됩니다.",
+          "promptStructure": {
+            "subject": "On the ornate, curved rooftop of the ancient temple, weapons are revealed: (An androgynous martial arts master, ethereal and imposing, with piercing eyes, wearing elaborate red and gold embroidered robes, long black hair flowing) holds (A single, slender, glowing golden needle, held delicately between two fingers, trailing a thin red thread) while (A righteous and steadfast martial arts master, with a strong jawline and determined eyes, wearing a simple yet elegant blue robe, his hair tied up neatly) draws (A sharp, gleaming silver longsword with a simple jade hilt, exuding a cold, righteous aura).",
+            "composition": "Split-screen close-up (or rapid back-and-forth edit) on the two props.",
+            "style": "3D render, photorealistic, Chinese Wuxia film style, cinematic, intense, macro details, octane render.",
+            "details": "Glow of the needle vs the sharp gleam of the sword.",
+            "parameters": "--ar 16:9 --style raw"
+          },
+          "motion": {
+            "ko": "바늘 클로즈업과 검 클로즈업을 빠르게 교차 편집.",
+            "en": "3D render, photorealistic, Chinese Wuxia film style, cinematic, intense, macro details, octane render. Rapid cuts between split-screen close-ups of a glowing golden needle held between two fingers with trailing red thread and a gleaming silver longsword with jade hilt, on the ornate curved rooftop of an ancient temple in misty dawn, glow of the needle vs the sharp gleam of the sword, confrontational atmosphere.",
+            "speed": "fast"
+          }
+        }
+      }
+    }
+  ]
+}
