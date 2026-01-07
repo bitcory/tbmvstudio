@@ -1,2 +1,8 @@
 node_modules
 vdai
+
+# macOS
+.DS_Store
+
+# build
+dist
