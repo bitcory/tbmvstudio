@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Film, X, Sparkles, Home, Palette, Image, ChevronDown, ChevronUp, Wand2 } from 'lucide-react'
+import { Film, X, Home, Palette, ChevronDown, ChevronUp, Wand2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
@@ -112,46 +112,6 @@ export function Sidebar({ isOpen, onClose, onNanoStudioToggle, showNanoStudio, o
               >
                 <Palette className="h-4 w-4 mr-2" />
                 비주얼컨셉
-              </Button>
-              <Button
-                variant="ghost"
-                className={cn(
-                  "w-full justify-start transition-all font-bold",
-                  showNanoStudio
-                    ? "bg-neo-blue text-white border-2 border-foreground shadow-[3px_3px_0_hsl(var(--foreground))]"
-                    : "bg-white text-foreground hover:bg-neo-yellow/50"
-                )}
-                onClick={() => {
-                  setActiveTab('nano')
-                  if (showStart) onStartToggle()
-                  if (showVisualConcept) onVisualConceptToggle()
-                  if (showFrameExtractor) onFrameExtractorToggle()
-                  if (!showNanoStudio) onNanoStudioToggle()
-                  onClose()
-                }}
-              >
-                <Sparkles className="h-4 w-4 mr-2" />
-                툴비스튜디오
-              </Button>
-              <Button
-                variant="ghost"
-                className={cn(
-                  "w-full justify-start transition-all font-bold",
-                  showFrameExtractor
-                    ? "bg-neo-green text-white border-2 border-foreground shadow-[3px_3px_0_hsl(var(--foreground))]"
-                    : "bg-white text-foreground hover:bg-neo-yellow/50"
-                )}
-                onClick={() => {
-                  setActiveTab('frameExtractor')
-                  if (showStart) onStartToggle()
-                  if (showVisualConcept) onVisualConceptToggle()
-                  if (showNanoStudio) onNanoStudioToggle()
-                  if (!showFrameExtractor) onFrameExtractorToggle()
-                  onClose()
-                }}
-              >
-                <Image className="h-4 w-4 mr-2" />
-                툴비추출기
               </Button>
               {/* 무료툴 드롭다운 */}
               <div className="space-y-1">
