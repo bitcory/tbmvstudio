@@ -41,36 +41,11 @@ export default {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))',
         },
-        neo: {
-          purple: 'hsl(var(--neo-purple))',
-          yellow: 'hsl(var(--neo-yellow))',
-          pink: 'hsl(var(--neo-pink))',
-          blue: 'hsl(var(--neo-blue))',
-          orange: 'hsl(var(--neo-orange))',
-          green: 'hsl(var(--neo-green))',
-          cyan: 'hsl(var(--neo-cyan))',
-          red: 'hsl(var(--neo-red))',
-          cream: 'hsl(var(--neo-cream))',
-          lime: 'hsl(var(--neo-lime))',
-        },
       },
       borderRadius: {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
-      },
-      borderWidth: {
-        3: '3px',
-      },
-      backdropBlur: {
-        xs: '2px',
-      },
-      backgroundSize: {
-        '200': '200%',
-      },
-      backgroundPosition: {
-        '0': '0%',
-        '100': '100%',
       },
     },
   },

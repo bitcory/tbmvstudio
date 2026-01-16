@@ -1,7 +1,7 @@
 export function PromptGenerator() {
   return (
-    <div className="w-full h-full p-4 bg-neo-cream">
-      <div className="neo-section w-full h-full overflow-hidden">
+    <div className="w-full h-full p-4 bg-background">
+      <div className="w-full h-full overflow-hidden border rounded-lg">
         <iframe
           src="https://tbprompt.aitoolb.com/"
           className="w-full h-full border-0"
