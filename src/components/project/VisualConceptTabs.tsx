@@ -353,7 +353,7 @@ export function VisualConceptTabs({
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold">{t.visualConceptTitle}</h2>
+        <h2 className="text-2xl font-bold">{t.characterSettingsTitle}</h2>
         {activeTab === 'characters' && (
           <Button onClick={handleAddCharacter} size="sm">
             <Plus className="h-4 w-4 mr-2" />

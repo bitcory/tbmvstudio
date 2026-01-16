@@ -4,137 +4,135 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-AITOOLBOX - A video project management tool for Midjourney v7 that allows users to manage video scenes with start/end frames, prompts, and transitions.
+AI TOOLBOX - A video project management tool for Midjourney v7 that allows users to manage video scenes with start/middle/end frames, prompts, characters, locations, and props using a semantic block-based prompt system.
 
 ## Development Commands
 
 ```bash
-# Start development server
-npm run dev
-
-# Build for production
-npm run build
-
-# Run linter
-npm run lint
-
-# Preview production build
-npm run preview
+npm run dev      # Start development server (http://localhost:5173)
+npm run build    # Build for production (runs tsc -b && vite build)
+npm run lint     # Run ESLint
+npm run preview  # Preview production build
 ```
 
 ## Architecture
 
-### Application Structure
+### View Navigation System
 
-The app uses a **three-view navigation system** controlled by state in `App.tsx`:
-- **START view** (`showStart=true`): Displays a fullscreen hero image
-- **Project view** (default state): Main project management interface with scenes/frames
-- **Nano Studio view** (`showNanoStudio=true`): Embedded iframe to external Nano Studio app
+The app uses a **multi-view navigation system** controlled by boolean state flags in `App.tsx`:
 
-Navigation is handled via the Sidebar component with mutually exclusive view states.
+| View | State Flag | Description |
+|------|------------|-------------|
+| START | `showStart` | Landing page with external Gemini tool links |
+| Storyboard | default (all flags false) | Main project management with scenes/frames |
+| Visual Concept | `showVisualConcept` | Character, location, and prop management |
+| Nano Studio | `showNanoStudio` | Embedded iframe to external app |
+| Frame Extractor | `showFrameExtractor` | Embedded iframe tool |
+| MJ Download | `showMultiDownloader` | Batch image/video downloader |
+| Prompt Generator | `showPromptGenerator` | AI prompt generation tool |
+
+Navigation is mutually exclusive - setting one view flag clears others.
 
 ### State Management
 
-**App-level state** (in `App.tsx`):
-- `projectData`: The entire project JSON structure loaded from file
-- `showStart`, `showNanoStudio`: View routing state
-- `sidebarOpen`: Mobile sidebar visibility
+**App-level state** (`App.tsx`):
+- `projectData`: The entire project JSON structure
+- `isPasswordAuthenticated`: Gate for app access
+- View flags: `showStart`, `showNanoStudio`, `showVisualConcept`, etc.
 
-**Persistence**:
-- Project data auto-saves to `localStorage` as `currentProject`
-- Frame-specific overrides (prompts, images) cached with keys: `frame_image_{sceneId}_{type}` and `frame_prompt_{sceneId}_{type}`
+**Persistence** (localStorage keys):
+- `currentProject`: Full project data
+- `passwordAuthenticated`: Auth state
+- `language`: Selected language ('ko' | 'en')
+- `frame_image_{sceneId}_{type}`: Frame image URLs
+- `frame_video_{sceneId}_{type}`: Frame video URLs
+- `frame_prompt_{sceneId}_{type}`: Prompt overrides
+- `character_image_{id}`: Character reference images
+- `keyprop_image_{id}`: Prop reference images
+- `location_image_{id}`: Location reference images
+
+### Internationalization (i18n)
+
+Language system in `src/contexts/LanguageContext.tsx`:
+- Supports Korean (`ko`) and English (`en`)
+- Toggle button in Sidebar footer
+- Access translations via `useLanguage()` hook: `const { t, language, setLanguage } = useLanguage()`
+- All UI text should use `t.keyName` pattern
 
 ### Data Model
 
-Projects are loaded via JSON file upload with this structure:
+#### V8.1 Schema (Semantic Block System)
+
+The app supports two data formats - legacy prompts and V8.1 semantic blocks:
 
 ```typescript
-{
-  project: {
-    title: string
-    style: string
-    aspectRatio: string
-    totalDuration: string
-    description?: string
-  }
-  scenario?: string  // Optional scenario text shown in modal
-  scenes: Array<{
-    sceneNumber: number
-    sceneId: string
-    title?: string
-    description?: string
-    frames: {
-      start: { prompt: string, description?: string, imageUrl?: string }
-      end: { prompt: string, description?: string, imageUrl?: string }
-    }
-    transition?: { type: string, duration: number }
-  }>
+// V8.1 Semantic Blocks (src/types/schema.ts)
+interface SemanticBlocks {
+  // Style: style_main, style_ref, media_type, genre
+  // Character: char_desc, char_body, char_hair, char_expression, char_outfit, action_pose...
+  // Location: loc_main, loc_structure, atmosphere, loc_light_mood...
+  // Props: prop_name, prop_detail, prop_special...
+  // Camera: camera_shot, quality_tags, model_params
+}
+
+interface Library {
+  characters: Record<string, { name: string, blocks: SemanticBlocks }>
+  locations: Record<string, { name: string, blocks: SemanticBlocks }>
+  props: Record<string, { name: string, blocks: SemanticBlocks }>
 }
 ```
 
-### Component Hierarchy
+#### Prompt Generation
 
-```
-App
-├── Header (fixed top)
-│   ├── Logo (clickable, routes to /)
-│   ├── Scenario button (conditional, shows modal)
-│   └── Upload button (triggers JSON file input)
-├── Sidebar (fixed left, collapsible on mobile)
-│   ├── START tab
-│   ├── 프로젝트 tab
-│   ├── 나노스튜디오 tab
-│   └── Download/Clear actions (when project loaded)
-└── Main content area (conditional rendering)
-    ├── START: Fullscreen image
-    ├── Nano Studio: iframe embed
-    └── ProjectManager
-        ├── Project info summary
-        ├── Scene selector (dropdown)
-        └── SceneCard (single scene)
-            └── FrameBox × 2 (start/end frames)
-                ├── Editable prompt (click to edit)
-                ├── Copy button
-                └── Image URL input + preview
-```
+`src/lib/promptBuilder.ts` assembles prompts in 5 chunks:
+1. **Style** - Visual style, genre, media type
+2. **Camera** - Shot type, gaze direction
+3. **Subject** - Character description, action, appearance
+4. **Background** - Location, atmosphere, lighting
+5. **Parameters** - Quality tags, model params
 
-### Key Features
+### Key Components
 
-**Editable Prompts**:
-- Click prompt text to enter edit mode (textarea)
-- Changes persist to localStorage immediately
-- Cancel button reverts to cached version
-
-**Image Management**:
-- Users can add image URLs to frames
-- Images display with `object-contain` to preserve aspect ratio
-- URLs cached to localStorage per frame
-
-**Scene Navigation**:
-- Dropdown selector shows one scene at a time
-- Scene numbers and titles displayed in dropdown options
+| Component | Location | Purpose |
+|-----------|----------|---------|
+| `VisualConceptTabs` | `src/components/project/` | Tabbed UI for characters/locations/props with V8.1 block support |
+| `SceneCard` | `src/components/project/` | Single scene with start/middle/end frames |
+| `FrameBox` | `src/components/project/` | Editable frame with prompt, image/video URLs |
+| `PasswordModal` | `src/components/auth/` | Initial authentication gate |
+| `MultiDownloader` | `src/components/project/` | Batch download with JSZip |
 
 ## Styling
 
-- **Framework**: Tailwind CSS v3 with custom dark theme
-- **Design system**: Black & white with red accent (`bg-red-900/50` for active states)
-- **Button style**: `rounded-full` with hover effects (`hover:bg-white/10` for inactive, `hover:bg-red-900/70` for active)
-- **Theme**: Dark mode enforced via CSS variables in `src/index.css`
+- **Framework**: Tailwind CSS v3 + shadcn/ui components
+- **Theme**: Dark mode with CSS custom properties in `src/index.css`
+- **UI Components**: `src/components/ui/` (Button, Card, Input, Badge, etc.)
+- **Icons**: Lucide React
 
-### Color Tokens
+### CSS Variables (`:root`)
 
-All colors use HSL CSS variables defined in `:root`:
-- `--background: 0 0% 7%` (near black)
-- `--foreground: 0 0% 98%` (near white)
-- `--card: 0 0% 10%`
-- `--border: 0 0% 20%`
+```css
+--background: 0 0% 7%    /* Near black */
+--foreground: 0 0% 98%   /* Near white */
+--card: 0 0% 10%
+--border: 0 0% 20%
+--primary: 0 0% 98%
+--muted: 0 0% 15%
+```
 
 ## File Paths
 
-- Use `@/` alias for imports from `src/` directory (configured in `vite.config.ts`)
+- Path alias: `@/` → `src/` (configured in `vite.config.ts` and `tsconfig.json`)
 - UI components: `@/components/ui/`
-- Utility functions: `@/lib/utils`
+- Contexts: `@/contexts/`
+- Types: `@/types/`
+- Utils: `@/lib/`
 
-## External Integration
+## JSON File Upload
 
-Nano Studio iframe URL: `https://nano-studio-252213558759.us-west1.run.app`
+The app handles multiple JSON formats on upload:
+1. **Single scene** - Wrapped into a test project
+2. **Full project** - Standard format with `project`, `scenes`, `definitions`
+3. **Backup format** - Contains `projectData` + `cachedData`
+4. **Properties wrapper** - `properties.projectData` format
+
+Legacy `shots` fields are auto-converted to `frames`.

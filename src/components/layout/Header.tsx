@@ -147,47 +147,49 @@ export function Header({ onMenuClick, onUpload, onReset, onBackup, scenario, scr
               <Menu className="h-5 w-5" />
             </Button>
 
-            <a href="/" className="flex items-center gap-2 sm:gap-3 cursor-pointer hover:opacity-80 transition-opacity">
-              <img src="/logo.png" alt="Logo" className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg" />
-              <div>
-                <h1 className="text-sm sm:text-base font-semibold">AI TOOLBOX</h1>
-              </div>
+            <a href="/" className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity">
+              <img src="/logo.png" alt="Logo" className="w-6 h-6 sm:w-8 sm:h-8 rounded-lg flex-shrink-0" />
+              <h1 className="text-sm sm:text-lg font-semibold whitespace-nowrap">MOVIE MAKER</h1>
             </a>
           </div>
 
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex items-center gap-1 sm:gap-2">
             {scenario && (
               <Button
                 variant="outline"
                 onClick={() => setShowScenario(true)}
                 size="sm"
+                className="px-2 sm:px-3"
               >
-                <FileText className="h-4 w-4 sm:mr-2" />
-                <span className="hidden sm:inline">{t.scenario}</span>
+                <FileText className="h-4 w-4 md:mr-2" />
+                <span className="hidden md:inline">{t.scenario}</span>
               </Button>
             )}
             <Button
               onClick={onUpload}
               size="sm"
+              className="px-2 sm:px-3"
             >
-              <Upload className="h-4 w-4 sm:mr-2" />
-              <span className="hidden sm:inline">{t.upload}</span>
+              <Upload className="h-4 w-4 md:mr-2" />
+              <span className="hidden md:inline">{t.upload}</span>
             </Button>
             <Button
               onClick={onBackup}
               variant="secondary"
               size="sm"
+              className="px-2 sm:px-3"
             >
-              <Download className="h-4 w-4 sm:mr-2" />
-              <span className="hidden sm:inline">{t.backup}</span>
+              <Download className="h-4 w-4 md:mr-2" />
+              <span className="hidden md:inline">{t.backup}</span>
             </Button>
             <Button
               onClick={onReset}
               variant="destructive"
               size="sm"
+              className="px-2 sm:px-3"
             >
-              <RefreshCw className="h-4 w-4 sm:mr-2" />
-              <span className="hidden sm:inline">{t.reset}</span>
+              <RefreshCw className="h-4 w-4 md:mr-2" />
+              <span className="hidden md:inline">{t.reset}</span>
             </Button>
           </div>
         </div>

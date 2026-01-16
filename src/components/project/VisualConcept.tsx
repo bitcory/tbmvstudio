@@ -141,7 +141,7 @@ export function VisualConcept({ characters, onUpdate }: VisualConceptProps) {
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center">
-        <h2 className="text-xl font-semibold">{t.visualConceptTitle}</h2>
+        <h2 className="text-xl font-semibold">{t.characterSettingsTitle}</h2>
         <Button onClick={addCharacter} size="sm">
           <Plus className="h-4 w-4 mr-2" />
           {t.addCharacter}

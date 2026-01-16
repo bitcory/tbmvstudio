@@ -6,7 +6,7 @@ interface Translations {
   // Sidebar
   start: string
   storytelling: string
-  visualConcept: string
+  characterSettings: string
   freeTools: string
   mjDownload: string
   promptGenerator: string
@@ -68,7 +68,7 @@ interface Translations {
   save: string
 
   // Visual Concept
-  visualConceptTitle: string
+  characterSettingsTitle: string
   addCharacter: string
   noCharacters: string
   characterName: string
@@ -128,7 +128,7 @@ const translations: Record<Language, Translations> = {
     // Sidebar
     start: 'START',
     storytelling: '스토리보드',
-    visualConcept: '비주얼 컨셉',
+    characterSettings: '캐릭터설정',
     freeTools: '무료 도구',
     mjDownload: 'MJ 다운로드',
     promptGenerator: '프롬프트 생성기',
@@ -190,7 +190,7 @@ const translations: Record<Language, Translations> = {
     save: '저장',
 
     // Visual Concept
-    visualConceptTitle: '비주얼 컨셉',
+    characterSettingsTitle: '캐릭터설정',
     addCharacter: '캐릭터 추가',
     noCharacters: '등록된 캐릭터가 없습니다.',
     characterName: '캐릭터 이름',
@@ -248,7 +248,7 @@ const translations: Record<Language, Translations> = {
     // Sidebar
     start: 'START',
     storytelling: 'Storyboard',
-    visualConcept: 'Visual Concept',
+    characterSettings: 'Character Settings',
     freeTools: 'Free Tools',
     mjDownload: 'MJ Download',
     promptGenerator: 'Prompt Generator',
@@ -310,7 +310,7 @@ const translations: Record<Language, Translations> = {
     save: 'Save',
 
     // Visual Concept
-    visualConceptTitle: 'Visual Concept',
+    characterSettingsTitle: 'Character Settings',
     addCharacter: 'Add Character',
     noCharacters: 'No characters registered.',
     characterName: 'Character Name',

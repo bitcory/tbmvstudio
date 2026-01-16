@@ -99,7 +99,7 @@ export function Sidebar({ isOpen, onClose, onNanoStudioToggle, showNanoStudio, o
                 }}
               >
                 <Palette className="h-4 w-4 mr-2" />
-                {t.visualConcept}
+                {t.characterSettings}
               </Button>
 
               {/* Free Tools Dropdown */}
