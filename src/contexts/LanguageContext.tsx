@@ -98,6 +98,29 @@ interface Translations {
   imageGeneration: string
   videoGeneration: string
   musicGenerator: string
+
+  // Visual Concept Tabs
+  characters: string
+  locations: string
+  props: string
+  addProp: string
+  noRole: string
+  unnamed: string
+  generatedPrompt: string
+  locationPrompt: string
+  propImage: string
+  locationImage: string
+  noLocations: string
+  noProps: string
+  addFirstCharacter: string
+  addFirstProp: string
+  newCharacter: string
+  newProp: string
+  deleteCharacter: string
+  deleteProp: string
+  visualPrompt: string
+  noImage: string
+  keyProp: string
 }
 
 const translations: Record<Language, Translations> = {
@@ -197,6 +220,29 @@ const translations: Record<Language, Translations> = {
     imageGeneration: '이미지 생성',
     videoGeneration: '영상 생성',
     musicGenerator: '음악 생성',
+
+    // Visual Concept Tabs
+    characters: '캐릭터',
+    locations: '장소',
+    props: '소품',
+    addProp: '소품 추가',
+    noRole: '역할 없음',
+    unnamed: '이름 없음',
+    generatedPrompt: '생성된 프롬프트',
+    locationPrompt: '장소 프롬프트',
+    propImage: '소품 이미지',
+    locationImage: '장소 이미지',
+    noLocations: '등록된 장소가 없습니다. 장면 설정에서 장소를 추가하세요.',
+    noProps: '등록된 소품이 없습니다.',
+    addFirstCharacter: '첫 캐릭터 추가',
+    addFirstProp: '첫 소품 추가',
+    newCharacter: '새 캐릭터',
+    newProp: '새 소품',
+    deleteCharacter: '이 캐릭터를 삭제하시겠습니까?',
+    deleteProp: '이 소품을 삭제하시겠습니까?',
+    visualPrompt: '비주얼 프롬프트',
+    noImage: '이미지 없음',
+    keyProp: '핵심 소품',
   },
   en: {
     // Sidebar
@@ -294,6 +340,29 @@ const translations: Record<Language, Translations> = {
     imageGeneration: 'Image Generation',
     videoGeneration: 'Video Generation',
     musicGenerator: 'Music Generator',
+
+    // Visual Concept Tabs
+    characters: 'Characters',
+    locations: 'Locations',
+    props: 'Props',
+    addProp: 'Add Prop',
+    noRole: 'No role',
+    unnamed: 'Unnamed',
+    generatedPrompt: 'Generated Prompt',
+    locationPrompt: 'Location Prompt',
+    propImage: 'Prop Image',
+    locationImage: 'Location Image',
+    noLocations: 'No locations registered. Add locations in scene settings.',
+    noProps: 'No props registered.',
+    addFirstCharacter: 'Add First Character',
+    addFirstProp: 'Add First Prop',
+    newCharacter: 'New Character',
+    newProp: 'New Prop',
+    deleteCharacter: 'Delete this character?',
+    deleteProp: 'Delete this prop?',
+    visualPrompt: 'Visual Prompt',
+    noImage: 'No image',
+    keyProp: 'Key Prop',
   }
 }
 

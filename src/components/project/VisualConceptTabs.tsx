@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge'
 import { cn } from '@/lib/utils'
 import { generateBlockPrompt } from '@/lib/promptBuilder'
 import type { Library, PromptBlock } from '@/types/schema'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 interface Character {
   id: string
@@ -100,6 +101,7 @@ export function VisualConceptTabs({
   const [copiedId, setCopiedId] = useState<string | null>(null)
   const [locationOverrides, setLocationOverrides] = useState<Record<string, LocationData>>({})
   const [fullPromptOverrides, setFullPromptOverrides] = useState<Record<string, string>>({})
+  const { t } = useLanguage()
 
   const convertV8ToCharacter = (id: string, data: any): Character & { blocks?: any } => {
     const blocks = data.blocks || {}
@@ -260,7 +262,7 @@ export function VisualConceptTabs({
     if (!onUpdateCharacters) return
     const newCharacter: Character = {
       id: `char_${Date.now()}`,
-      name: 'New Character',
+      name: t.newCharacter,
       role: '',
       description: '',
       visualDescription: ''
@@ -274,7 +276,7 @@ export function VisualConceptTabs({
     if (!onUpdateKeyProps) return
     const newProp: KeyProp = {
       id: `prop_${Date.now()}`,
-      name: 'New Prop',
+      name: t.newProp,
       description: '',
       visualDescription: ''
     }
@@ -285,7 +287,7 @@ export function VisualConceptTabs({
 
   const handleDeleteCharacter = (id: string) => {
     if (!onUpdateCharacters) return
-    if (confirm('Delete this character?')) {
+    if (confirm(t.deleteCharacter)) {
       onUpdateCharacters(characters.filter(c => c.id !== id))
       localStorage.removeItem(`character_image_${id}`)
       if (selectedId === id) {
@@ -296,7 +298,7 @@ export function VisualConceptTabs({
 
   const handleDeleteKeyProp = (id: string) => {
     if (!onUpdateKeyProps) return
-    if (confirm('Delete this prop?')) {
+    if (confirm(t.deleteProp)) {
       onUpdateKeyProps(keyProps.filter(p => p.id !== id))
       localStorage.removeItem(`keyprop_image_${id}`)
       if (selectedId === id) {
@@ -351,17 +353,17 @@ export function VisualConceptTabs({
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold">Visual Concept</h2>
+        <h2 className="text-2xl font-bold">{t.visualConceptTitle}</h2>
         {activeTab === 'characters' && (
           <Button onClick={handleAddCharacter} size="sm">
             <Plus className="h-4 w-4 mr-2" />
-            Add Character
+            {t.addCharacter}
           </Button>
         )}
         {activeTab === 'keyProps' && (
           <Button onClick={handleAddKeyProp} size="sm">
             <Plus className="h-4 w-4 mr-2" />
-            Add Prop
+            {t.addProp}
           </Button>
         )}
       </div>
@@ -373,21 +375,21 @@ export function VisualConceptTabs({
           onClick={() => setActiveTab('characters')}
         >
           <User className="h-4 w-4 mr-2" />
-          Characters ({allCharacters.length})
+          {t.characters} ({allCharacters.length})
         </Button>
         <Button
           variant={activeTab === 'locations' ? "default" : "ghost"}
           onClick={() => setActiveTab('locations')}
         >
           <MapPin className="h-4 w-4 mr-2" />
-          Locations ({allLocations.length})
+          {t.locations} ({allLocations.length})
         </Button>
         <Button
           variant={activeTab === 'keyProps' ? "default" : "ghost"}
           onClick={() => setActiveTab('keyProps')}
         >
           <Package className="h-4 w-4 mr-2" />
-          Props ({allKeyProps.length})
+          {t.props} ({allKeyProps.length})
         </Button>
       </div>
 
@@ -406,7 +408,7 @@ export function VisualConceptTabs({
                       size="sm"
                     >
                       <User className="h-4 w-4 mr-2" />
-                      {character.name || 'Unnamed'}
+                      {character.name || t.unnamed}
                     </Button>
                   ))}
                 </div>
@@ -424,17 +426,17 @@ export function VisualConceptTabs({
                               value={selectedCharacter.name}
                               onChange={(e) => handleUpdateCharacter(selectedCharacter.id, 'name', e.target.value)}
                               onBlur={() => setEditingId(null)}
-                              placeholder="Character name"
+                              placeholder={t.characterName}
                               className="h-8 max-w-[160px]"
                               autoFocus
                             />
                           ) : (
                             <CardTitle className="cursor-pointer truncate text-lg" onClick={() => setEditingId(selectedCharacter.id)}>
-                              {selectedCharacter.name || 'Unnamed'}
+                              {selectedCharacter.name || t.unnamed}
                             </CardTitle>
                           )}
                           <Badge variant="outline" className="w-fit mt-1">
-                            {selectedCharacter.role || 'No role'}
+                            {selectedCharacter.role || t.noRole}
                           </Badge>
                         </div>
                       </div>
@@ -460,7 +462,7 @@ export function VisualConceptTabs({
 
                               return (
                                 <div>
-                                  <label className="text-sm font-medium mb-2 block">Generated Prompt</label>
+                                  <label className="text-sm font-medium mb-2 block">{t.generatedPrompt}</label>
                                   <div className="relative group">
                                     <div className="bg-muted rounded-lg p-4 text-sm font-mono min-h-[200px] max-h-[400px] overflow-y-auto">
                                       {generatedPrompt}
@@ -488,25 +490,25 @@ export function VisualConceptTabs({
                       ) : (
                         <>
                           <div className="space-y-2">
-                            <label className="text-sm font-medium">Role</label>
+                            <label className="text-sm font-medium">{t.role}</label>
                             <Input
                               value={selectedCharacter.role}
                               onChange={(e) => handleUpdateCharacter(selectedCharacter.id, 'role', e.target.value)}
-                              placeholder="Protagonist, supporting, etc."
+                              placeholder={`${t.protagonist}, ${t.supporting}`}
                             />
                           </div>
                           <div className="space-y-2">
-                            <label className="text-sm font-medium">Description</label>
+                            <label className="text-sm font-medium">{t.description}</label>
                             <textarea
                               value={selectedCharacter.description}
                               onChange={(e) => handleUpdateCharacter(selectedCharacter.id, 'description', e.target.value)}
-                              placeholder="Character description"
+                              placeholder={t.characterDescription}
                               className="w-full min-h-[80px] rounded-md border border-input bg-background px-3 py-2 text-sm"
                               rows={3}
                             />
                           </div>
                           <div className="space-y-2">
-                            <label className="text-sm font-medium">Visual Prompt</label>
+                            <label className="text-sm font-medium">{t.visualPrompt}</label>
                             <div className="relative group">
                               <textarea
                                 value={selectedCharacter.visualDescription}
@@ -536,11 +538,11 @@ export function VisualConceptTabs({
 
                   <Card>
                     <CardHeader>
-                      <CardTitle>Character Image</CardTitle>
+                      <CardTitle>{t.characterImage}</CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-4">
                       <div className="space-y-2">
-                        <label className="text-sm font-medium">Image URL</label>
+                        <label className="text-sm font-medium">{t.imageUrl}</label>
                         <Input
                           value={characterImages[selectedCharacter.id] || ''}
                           onChange={(e) => handleImageUrlChange('character', selectedCharacter.id, e.target.value)}
@@ -561,7 +563,7 @@ export function VisualConceptTabs({
                         ) : (
                           <div className="flex flex-col items-center gap-2 text-muted-foreground">
                             <User className="w-12 h-12" />
-                            <span className="text-sm">No image</span>
+                            <span className="text-sm">{t.noImage}</span>
                           </div>
                         )}
                       </div>
@@ -573,9 +575,9 @@ export function VisualConceptTabs({
           ) : (
             <div className="flex flex-col items-center justify-center py-16 text-muted-foreground gap-4">
               <User className="w-12 h-12" />
-              <p>No characters registered.</p>
+              <p>{t.noCharacters}</p>
               <Button onClick={handleAddCharacter}>
-                Add First Character
+                {t.addFirstCharacter}
               </Button>
             </div>
           )}
@@ -596,7 +598,7 @@ export function VisualConceptTabs({
                       size="sm"
                     >
                       <MapPin className="h-4 w-4 mr-2" />
-                      {location.title || (location as any).name || `Scene ${location.scene}`}
+                      {location.title || (location as any).name || `${t.scene} ${location.scene}`}
                     </Button>
                   ))}
                 </div>
@@ -608,7 +610,7 @@ export function VisualConceptTabs({
                     <CardHeader>
                       <CardTitle className="flex items-center gap-2">
                         <MapPin className="h-5 w-5" />
-                        Scene {selectedLocation.scene}
+                        {t.scene} {selectedLocation.scene}
                         {selectedLocation.title && `: ${selectedLocation.title}`}
                       </CardTitle>
                     </CardHeader>
@@ -626,7 +628,7 @@ export function VisualConceptTabs({
 
                               return (
                                 <div>
-                                  <label className="text-sm font-medium mb-2 block">Generated Prompt</label>
+                                  <label className="text-sm font-medium mb-2 block">{t.generatedPrompt}</label>
                                   <div className="relative group">
                                     <div className="bg-muted rounded-lg p-4 text-sm font-mono min-h-[200px] max-h-[400px] overflow-y-auto">
                                       {generatedPrompt}
@@ -653,7 +655,7 @@ export function VisualConceptTabs({
                         </>
                       ) : (
                         <div>
-                          <label className="text-sm font-medium mb-2 block">Location Prompt</label>
+                          <label className="text-sm font-medium mb-2 block">{t.locationPrompt}</label>
                           <div className="relative group">
                             <div className="bg-muted rounded-lg p-4 text-sm font-mono min-h-[200px] max-h-[400px] overflow-y-auto">
                               {fullPromptOverrides[selectedLocation.id] || `${selectedLocation.location}${selectedLocation.timeOfDay ? `, ${selectedLocation.timeOfDay}` : ''}${selectedLocation.atmosphere ? `, ${selectedLocation.atmosphere}` : ''}`}
@@ -682,11 +684,11 @@ export function VisualConceptTabs({
 
                   <Card>
                     <CardHeader>
-                      <CardTitle>Location Image</CardTitle>
+                      <CardTitle>{t.locationImage}</CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-4">
                       <div className="space-y-2">
-                        <label className="text-sm font-medium">Image URL</label>
+                        <label className="text-sm font-medium">{t.imageUrl}</label>
                         <Input
                           value={locationImages[selectedLocation.id] || ''}
                           onChange={(e) => handleImageUrlChange('location', selectedLocation.id, e.target.value)}
@@ -707,7 +709,7 @@ export function VisualConceptTabs({
                         ) : (
                           <div className="flex flex-col items-center gap-2 text-muted-foreground">
                             <MapPin className="w-12 h-12" />
-                            <span className="text-sm">No image</span>
+                            <span className="text-sm">{t.noImage}</span>
                           </div>
                         )}
                       </div>
@@ -719,7 +721,7 @@ export function VisualConceptTabs({
           ) : (
             <div className="flex flex-col items-center justify-center py-16 text-muted-foreground gap-4">
               <MapPin className="w-12 h-12" />
-              <p>No locations registered. Add locations in scene settings.</p>
+              <p>{t.noLocations}</p>
             </div>
           )}
         </div>
@@ -739,7 +741,7 @@ export function VisualConceptTabs({
                       size="sm"
                     >
                       <Package className="h-4 w-4 mr-2" />
-                      {prop.name || 'Unnamed'}
+                      {prop.name || t.unnamed}
                     </Button>
                   ))}
                 </div>
@@ -757,16 +759,16 @@ export function VisualConceptTabs({
                               value={selectedKeyProp.name}
                               onChange={(e) => handleUpdateKeyProp(selectedKeyProp.id, 'name', e.target.value)}
                               onBlur={() => setEditingId(null)}
-                              placeholder="Prop name"
+                              placeholder={t.newProp}
                               className="h-8 max-w-[160px]"
                               autoFocus
                             />
                           ) : (
                             <CardTitle className="cursor-pointer truncate text-lg" onClick={() => setEditingId(selectedKeyProp.id)}>
-                              {selectedKeyProp.name || 'Unnamed'}
+                              {selectedKeyProp.name || t.unnamed}
                             </CardTitle>
                           )}
-                          <Badge variant="outline" className="w-fit mt-1">KEY PROP</Badge>
+                          <Badge variant="outline" className="w-fit mt-1">{t.keyProp}</Badge>
                         </div>
                       </div>
                       <Button
@@ -798,17 +800,17 @@ export function VisualConceptTabs({
                       ) : (
                         <>
                           <div className="space-y-2">
-                            <label className="text-sm font-medium">Description</label>
+                            <label className="text-sm font-medium">{t.description}</label>
                             <textarea
                               value={selectedKeyProp.description}
                               onChange={(e) => handleUpdateKeyProp(selectedKeyProp.id, 'description', e.target.value)}
-                              placeholder="Prop description"
+                              placeholder={t.description}
                               className="w-full min-h-[80px] rounded-md border border-input bg-background px-3 py-2 text-sm"
                               rows={3}
                             />
                           </div>
                           <div className="space-y-2">
-                            <label className="text-sm font-medium">Visual Prompt</label>
+                            <label className="text-sm font-medium">{t.visualPrompt}</label>
                             <div className="relative group">
                               <textarea
                                 value={selectedKeyProp.visualDescription}
@@ -838,11 +840,11 @@ export function VisualConceptTabs({
 
                   <Card>
                     <CardHeader>
-                      <CardTitle>Prop Image</CardTitle>
+                      <CardTitle>{t.propImage}</CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-4">
                       <div className="space-y-2">
-                        <label className="text-sm font-medium">Image URL</label>
+                        <label className="text-sm font-medium">{t.imageUrl}</label>
                         <Input
                           value={keyPropImages[selectedKeyProp.id] || ''}
                           onChange={(e) => handleImageUrlChange('keyprop', selectedKeyProp.id, e.target.value)}
@@ -863,7 +865,7 @@ export function VisualConceptTabs({
                         ) : (
                           <div className="flex flex-col items-center gap-2 text-muted-foreground">
                             <Package className="w-12 h-12" />
-                            <span className="text-sm">No image</span>
+                            <span className="text-sm">{t.noImage}</span>
                           </div>
                         )}
                       </div>
@@ -875,9 +877,9 @@ export function VisualConceptTabs({
           ) : (
             <div className="flex flex-col items-center justify-center py-16 text-muted-foreground gap-4">
               <Package className="w-12 h-12" />
-              <p>No props registered.</p>
+              <p>{t.noProps}</p>
               <Button onClick={handleAddKeyProp}>
-                Add First Prop
+                {t.addFirstProp}
               </Button>
             </div>
           )}
